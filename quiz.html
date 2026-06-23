@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>New Day · AI-check</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;500;600;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#EEF1F5;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px;font-family:'Inter',system-ui,Arial,sans-serif}
+#pslq{--navy:#1E293B;--gold:#E2B77B;--soft:#F8FAFC;--ink:#334155;--gray:#64748B;--line:#E6E2DA;width:100%;max-width:560px;color:var(--ink)}
+#pslq .card{background:var(--soft);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 18px 50px rgba(30,41,59,.14)}
+#pslq .top{background:var(--navy);padding:14px 22px}
+#pslq .eyebrow{color:var(--gold);font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase}
+#pslq .track{height:6px;background:rgba(255,255,255,.16);border-radius:99px;margin-top:11px;overflow:hidden}
+#pslq .fill{height:100%;background:var(--gold);width:0;transition:width .35s ease}
+#pslq .meta{display:flex;justify-content:space-between;color:#C9D2DE;font-size:11px;margin-top:9px;font-weight:500}
+#pslq .body{padding:26px 24px 28px}
+#pslq h1{font-family:'Playfair Display',Georgia,serif;color:var(--navy);font-size:28px;line-height:1.15;font-weight:700}
+#pslq h1 em{color:var(--gold);font-style:italic}
+#pslq .q{font-family:'Playfair Display',Georgia,serif;color:var(--navy);font-size:22px;line-height:1.22;font-weight:700;margin-bottom:18px}
+#pslq .lead{color:var(--gray);font-size:15px;line-height:1.55;margin:14px 0 22px}
+#pslq .label{color:var(--gold);font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin-bottom:11px}
+#pslq .opt{display:block;width:100%;text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px;font-size:15px;color:var(--navy);cursor:pointer;font-weight:500;transition:all .15s;min-height:50px}
+#pslq .opt:hover{border-color:var(--gold);background:#fffdf7}
+#pslq .row2{display:flex;gap:12px}
+#pslq .big{flex:1;border:1.5px solid var(--line);background:#fff;border-radius:14px;padding:20px 12px;font-size:17px;font-weight:600;color:var(--navy);cursor:pointer;transition:all .15s}
+#pslq .big:hover{border-color:var(--gold);background:#fffdf7}
+#pslq .btn{display:inline-block;background:var(--navy);color:#fff;border:none;border-radius:12px;padding:14px 26px;font-size:15px;font-weight:600;cursor:pointer}
+#pslq .btn:hover{background:#152540}
+#pslq .btn .g{color:var(--gold)}
+#pslq .reveal{background:#fff;border-left:4px solid var(--gold);border-radius:0 10px 10px 0;padding:14px 16px;margin:4px 0 18px;color:var(--ink);font-size:14.5px;line-height:1.55}
+#pslq .chosen{color:var(--navy);font-weight:600;font-size:13px;margin:-6px 0 12px}
+#pslq .badge{display:flex;align-items:center;justify-content:center;width:84px;height:84px;border-radius:50%;background:var(--navy);border:3px solid var(--gold);color:var(--gold);font-family:'Playfair Display',Georgia,serif;font-size:34px;font-weight:700;flex-shrink:0}
+#pslq .type{font-family:'Playfair Display',Georgia,serif;color:var(--navy);font-size:27px;font-weight:700;line-height:1.1}
+#pslq .hands{background:var(--navy);border-radius:14px;padding:16px 18px;margin:18px 0 4px;color:#E6ECF4;font-size:14.5px;line-height:1.55}
+#pslq .hands b{color:var(--gold)}
+#pslq .foot{color:var(--gray);font-size:11.5px;text-align:center;margin-top:18px;letter-spacing:.04em}
+#pslq .small{color:var(--gray);font-size:12.5px;margin-top:14px}
+</style>
+</head>
+<body>
+<section id="pslq" aria-label="AI-check">
+  <h2 style="position:absolute;left:-9999px">Interactieve AI-check voor het New Day event: ontdek je AI-type en zie hoe ver de zaal is.</h2>
+  <div class="card">
+    <div class="top">
+      <div class="eyebrow">AI: Proosten op de toekomst</div>
+      <div class="track"><div class="fill" id="pq-fill"></div></div>
+      <div class="meta"><span id="pq-left">New Day &middot; PSL Consulting</span><span id="pq-right"></span></div>
+    </div>
+    <div class="body" id="pq-body"></div>
+  </div>
+</section>
+<script>
+var Q=[
+ {part:"Deel A &middot; Hoe ver ben jij?",kind:"score",q:"Hoe vaak gebruik je AI op je werk?",o:[["Nog nooit echt",0],["Af en toe geprobeerd",1],["Elke week wel iets",2],["Dagelijks, niet meer zonder",3]]},
+ {part:"Deel A &middot; Hoe ver ben jij?",kind:"score",q:"Wat heb je al met AI gedaan?",o:[["Eerlijk? Nog niks",0],["Een tekst of mail laten schrijven",1],["Een vaste klus ermee versneld",2],["Een eigen werkwijze gebouwd",3]]},
+ {part:"Deel A &middot; Hoe ver ben jij?",kind:"score",q:"Hoe voelt AI voor jou?",o:[["Een beetje spannend",0],["Nieuwsgierig, maar waar begin ik?",1],["Lekker aan het experimenteren",2],["Ik help anderen al op weg",3]]},
+ {part:"Deel A &middot; Hoe ver ben jij?",kind:"score",q:"En je team of collega's?",o:[["Daar doen we nog niks mee",0],["Een paar mensen pielen wat",1],["We delen tips en trucs",2],["Het zit in hoe we werken",3]]},
+ {part:"Deel A &middot; Hoe ver ben jij?",kind:"pick",q:"Welke tijdvreter mag AI van jou overnemen?",o:[["De berg mails","mails"],["De administratie","admin"],["Content en social","content"],["Het uitzoekwerk","uitzoek"]]},
+ {part:"Deel B &middot; Stellingen",kind:"stelling",q:"AI gaat een deel van mijn werk overnemen.",reveal:"Klopt: het saaie deel. De vraag is wat jij doet met de tijd die je terugkrijgt."},
+ {part:"Deel B &middot; Stellingen",kind:"stelling",q:"Ik durf AI mijn klantcommunicatie te laten schrijven.",reveal:"De eerste 80% prima. De laatste 20%, jouw toon en oordeel, blijf jij doen."},
+ {part:"Deel B &middot; Stellingen",kind:"stelling",q:"Over een jaar gebruikt iedereen in mijn vak AI.",reveal:"Waarschijnlijk wel. De echte vraag: loop jij voorop of volg je?"},
+ {part:"Deel B &middot; Stellingen",kind:"stelling",q:"AI maakt werk juist menselijker.",reveal:"Kan zeker: minder geploeter, meer tijd voor de mens tegenover je."}
+];
+var TYPES=[
+ {min:0,max:3,name:"De Verkenner",blurb:"Je staat aan de start, en dat is precies goed. Eén klus deze week is genoeg om te beginnen."},
+ {min:4,max:7,name:"De Gebruiker",blurb:"Je pakt AI er al bij. Tijd om van losse trucs naar een vaste gewoonte te gaan."},
+ {min:8,max:10,name:"De Aanjager",blurb:"Je loopt voorop. Jouw kans: neem je team mee, samen ga je sneller."},
+ {min:11,max:12,name:"De Pionier",blurb:"Je bent zo goed als AI-native. Jij bent degene die de rest inspireert, deel het."}
+];
+var TIPS={mails:"laat AI morgen de eerste versie van je standaardmails schrijven, in jouw toon.",admin:"laat AI je documenten en facturen samenvatten, dan houd je je avonden vrij.",content:"laat AI je social posts en teksten maken, jij geeft ze jouw merkstijl.",uitzoek:"gebruik AI als je research-assistent: vraag, vergelijk, beslis."};
+var i=0,score=0,tip="mails";
+var body=document.getElementById("pq-body"),fill=document.getElementById("pq-fill"),L=document.getElementById("pq-left"),R=document.getElementById("pq-right");
+function bar(p,l,r){fill.style.width=p+"%";L.innerHTML=l;R.textContent=r||""}
+function startScreen(){bar(0,"New Day &middot; PSL Consulting","");body.innerHTML='<div class="label">New Day tenant event &middot; 25 juni</div><h1>Hoe <em>AI-proof</em> ben jij?</h1><p class="lead">Een korte check in negen stappen. Je ontdekt jouw AI-type, en samen zien we hoe ver de zaal al is.</p><button class="btn" onclick="begin()">Start de check <span class="g">&rarr;</span></button><div class="small">Pak je telefoon erbij. Het duurt twee minuten.</div>'}
+function begin(){i=0;score=0;tip="mails";renderQ()}
+function renderQ(){
+ if(i>=Q.length){return result()}
+ var q=Q[i];bar(Math.round(i/Q.length*100),q.part,(i+1)+" / "+Q.length);
+ var h='<div class="label">'+q.part+'</div><div class="q">'+q.q+'</div>';
+ if(q.kind==="score"){h+=q.o.map(function(o){return '<button class="opt" onclick="ans('+o[1]+')">'+o[0]+'</button>'}).join("")}
+ else if(q.kind==="pick"){h+=q.o.map(function(o){return '<button class="opt" onclick="pick(\''+o[1]+'\')">'+o[0]+'</button>'}).join("")}
+ else{h+='<div class="row2"><button class="big" onclick="stel(\'Eens\')">Eens</button><button class="big" onclick="stel(\'Oneens\')">Oneens</button></div>'}
+ body.innerHTML=h
+}
+function ans(v){score+=v;i++;renderQ()}
+function pick(v){tip=v;i++;renderQ()}
+function stel(c){
+ var q=Q[i];
+ body.innerHTML='<div class="label">'+q.part+'</div><div class="q">'+q.q+'</div><div class="chosen">Jij koos: '+c+'</div><div class="reveal">'+q.reveal+'</div><button class="btn" onclick="next()">Volgende <span class="g">&rarr;</span></button>'
+}
+function next(){i++;renderQ()}
+function result(){
+ bar(100,"Klaar","9 / 9");
+ var t=TYPES[0];for(var k=0;k<TYPES.length;k++){if(score>=TYPES[k].min&&score<=TYPES[k].max){t=TYPES[k]}}
+ body.innerHTML='<div class="label">Jouw uitslag</div>'+
+ '<div style="display:flex;align-items:center;gap:18px;margin-bottom:6px"><div class="badge">'+score+'</div><div><div style="color:var(--gray);font-size:12px;margin-bottom:2px">van 12 punten</div><div class="type">'+t.name+'</div></div></div>'+
+ '<p class="lead" style="margin:16px 0 0">'+t.blurb+'</p>'+
+ '<div class="reveal" style="margin-top:16px"><b style="color:var(--navy)">Jouw eerste stap: </b>'+TIPS[tip]+'</div>'+
+ '<div class="hands"><b>Handen omhoog:</b> wie in de zaal heeft hetzelfde type? Kijk om je heen, dan zie je in één klap hoe ver New Day al is.</div>'+
+ '<button class="btn" onclick="startScreen()" style="margin-top:16px">Opnieuw</button>'+
+ '<div class="foot">PSL CONSULTING &middot; AI LEADERSHIP &amp; DIGITALE TRANSFORMATIE</div>'
+}
+startScreen();
+</script>
+</body>
+</html>
