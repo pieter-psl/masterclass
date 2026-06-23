@@ -62,6 +62,7 @@
   body.host .wrap{max-width:1100px;padding:26px 30px}
   body.host .card{background:var(--soft)}
   body.host .hosttop{display:flex;justify-content:space-between;align-items:center;gap:24px;background:var(--navy);border-radius:18px;padding:18px 26px;margin-bottom:18px}
+  body.host .hostlogo{height:56px;width:auto;flex-shrink:0}
   body.host .joincode{font-family:Georgia,serif;color:var(--gold);font-size:40px;font-weight:700;letter-spacing:.1em;line-height:1}
   body.host .joinurl{color:#C9D2DE;font-size:14px;margin-top:4px}
   body.host #qr{background:#F8FAFC;padding:8px;border-radius:10px;line-height:0}
@@ -144,8 +145,8 @@ function runHost(){
  function render(){
    var Q=QUESTIONS[curIdx];
    app.innerHTML=''+
-    '<div class="hosttop"><div><div class="eyebrow">AI: Proosten op de toekomst &middot; doe mee</div>'+
-    '<div class="joincode">'+room+'</div><div class="joinurl">'+esc(url.replace(/^https?:\/\//,""))+'</div></div>'+
+    '<div class="hosttop"><div style="display:flex;align-items:center;gap:20px"><img class="hostlogo" src="psl-logo.png" alt="PSL Consulting"><div><div class="eyebrow">AI: Proosten op de toekomst &middot; doe mee</div>'+
+    '<div class="joincode">'+room+'</div><div class="joinurl">'+esc(url.replace(/^https?:\/\//,""))+'</div></div></div>'+
     '<div id="qr"></div></div>'+
     '<div class="card"><div class="body">'+
     '<div class="label">Vraag '+(curIdx+1)+' van '+QUESTIONS.length+'</div>'+
