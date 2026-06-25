@@ -9,21 +9,11 @@
   ============================================================
   NEW DAY LIVE POLL  ·  PSL Consulting
   ============================================================
-  EENMALIGE SETUP (ongeveer 10 minuten):
-  1. Ga naar https://console.firebase.google.com en log in met Google.
-  2. "Add project" -> naam bv. "newday-poll" -> Analytics mag uit -> Create.
-  3. Links: Build -> Realtime Database -> Create Database ->
-     locatie "europe-west1" -> start in TEST MODE -> Enable.
-  4. Project Overview -> tandwiel -> Project settings -> onderaan
-     "Your apps" -> klik het web-icoon (</>) -> app-naam -> Register app.
-  5. Kopieer het hele firebaseConfig-blok dat je ziet.
-  6. Plak het hieronder over het voorbeeld (tussen de >>> <<< regels).
-  7. Sla op en upload dit bestand naar je eigen site.
-
+  De Firebase-config staat al ingevuld (project newday-poll).
   GEBRUIK OP DE AVOND:
-  - Beamer:    open  jouwsite.nl/NewDay_live_poll.html?host
-  - Telefoons: scan de QR op het scherm, of ga naar de site en typ de code.
-  - Jij klikt "Volgende vraag", de zaal stemt, de balkjes lopen live mee.
+  - Beamer:    open  .../poll.html?host   -> toont de lobby met code, QR en namen
+  - Telefoons: scan de QR of ga naar de site en typ de code, daarna naam invullen
+  - Jij klikt "Start de poll" en daarna "Volgende vraag"
   ============================================================
 -->
 
@@ -42,7 +32,6 @@
   .label{color:var(--gold);font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin-bottom:11px}
   .opt{display:block;width:100%;text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:15px 16px;margin-bottom:11px;font-size:16px;color:var(--navy);cursor:pointer;font-weight:500;transition:all .15s;min-height:52px}
   .opt:hover{border-color:var(--gold);background:#fffdf7}
-  .opt:disabled{opacity:.55;cursor:default}
   .btn{display:inline-block;background:var(--navy);color:#fff;border:none;border-radius:12px;padding:14px 26px;font-size:15px;font-weight:600;cursor:pointer}
   .btn:hover{background:var(--navy2)}
   .btn.ghost{background:#fff;color:var(--navy);border:1.5px solid var(--line)}
@@ -55,11 +44,10 @@
   .btrack{height:26px;background:var(--track);border-radius:8px;overflow:hidden}
   .bfill{height:100%;background:var(--gold);width:0;border-radius:8px;transition:width .5s ease}
   .talk{background:#fff;border-left:4px solid var(--gold);border-radius:0 10px 10px 0;padding:13px 16px;margin-top:14px;color:var(--ink);font-size:14.5px;line-height:1.5}
-  .foot{color:var(--gray);font-size:11.5px;text-align:center;margin-top:18px;letter-spacing:.04em}
   .note{color:var(--gray);font-size:13px;margin-top:14px;line-height:1.5}
   /* HOST (beamer) */
   body.host{background:var(--navy)}
-  body.host .wrap{max-width:1100px;padding:26px 30px}
+  body.host .wrap{max-width:1120px;padding:26px 30px}
   body.host .card{background:var(--soft)}
   body.host .hosttop{display:flex;justify-content:space-between;align-items:center;gap:24px;background:var(--navy);border-radius:18px;padding:18px 26px;margin-bottom:18px}
   body.host .hostlogo{height:56px;width:auto;flex-shrink:0}
@@ -72,7 +60,27 @@
   body.host .total{color:var(--gray);font-size:15px;font-weight:600;margin:6px 0 18px}
   body.host .talk{font-size:17px}
   body.host .ctrl{display:flex;gap:12px;margin-top:22px}
-  .center{text-align:center}
+  /* LOBBY (host) */
+  body.host .lobbyhead{display:flex;align-items:center;gap:16px;justify-content:center;margin:4px 0 22px}
+  body.host .lobbyhead .hostlogo{height:50px}
+  body.host .lobbyhead .eyebrow{font-size:13px}
+  body.host .lobbygrid{display:grid;grid-template-columns:1.05fr 1fr;gap:22px;align-items:stretch}
+  body.host .joinbox{background:var(--soft);border-radius:20px;padding:30px 32px;display:flex;flex-direction:column;justify-content:center}
+  body.host .jlabel{color:var(--gray);font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px}
+  body.host .jurl{font-family:Georgia,serif;color:var(--navy);font-size:24px;font-weight:700;line-height:1.2;word-break:break-all;margin-bottom:22px}
+  body.host .jcoderow{display:flex;align-items:center;justify-content:space-between;gap:20px}
+  body.host .jcodelabel{color:var(--gray);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;margin-bottom:2px}
+  body.host .jcode{font-family:Georgia,serif;color:var(--navy);font-size:66px;font-weight:700;letter-spacing:.07em;line-height:1}
+  body.host .playerbox{background:var(--navy2);border:1px solid rgba(226,183,123,.28);border-radius:20px;padding:24px 26px;min-height:300px}
+  body.host .phead{color:var(--gold);font-size:15px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:18px}
+  body.host .pgrid{display:flex;flex-wrap:wrap;gap:10px;align-content:flex-start}
+  body.host .pchip{background:var(--soft);color:var(--navy);font-weight:600;font-size:16px;padding:9px 16px;border-radius:99px;animation:pop .25s ease}
+  body.host .pempty{color:#8FA1B6;font-size:15px;font-style:italic}
+  @keyframes pop{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
+  body.host .lobbyfoot{display:flex;align-items:center;gap:18px;justify-content:center;margin-top:24px}
+  body.host .startbtn{background:var(--gold);color:var(--navy);border:none;border-radius:14px;padding:18px 44px;font-size:21px;font-weight:700;cursor:pointer}
+  body.host .startbtn:hover{background:#EAC58E}
+  body.host .waithint{color:#8FA1B6;font-size:14px}
 </style>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -83,7 +91,6 @@
 <div class="wrap"><div id="app"></div></div>
 
 <script>
-/* >>> PLAK HIER JE EIGEN FIREBASE-CONFIG (uit de Firebase console) <<< */
 var firebaseConfig = {
   apiKey: "AIzaSyBE2mhMVUXfJB340XOdMeUpqRpz48R-Otg",
   authDomain: "newday-poll.firebaseapp.com",
@@ -94,15 +101,14 @@ var firebaseConfig = {
   appId: "1:328550761826:web:dc3e584894d67f1db5183b",
   measurementId: "G-JXQ9W4FDHK"
 };
-/* >>> tot hier <<< */
 
 var QUESTIONS = [
- {q:"Hoe vaak gebruik je AI op je werk?", o:["Nog nooit echt","Af en toe","Elke week","Dagelijks"], talk:"Een mooie nulmeting. Waar zit de grootste groep, en wie staat aan de andere kant?"},
- {q:"Hoe voelt AI voor jou?", o:["Een beetje spannend","Nieuwsgierig","Enthousiast","Ik help anderen"], talk:"Van koudwatervrees naar aanjager. Vraag iemand uit elk kamp waarom."},
- {q:"Stelling: ik ben bang dat ik AI niet kan bijbenen.", o:["Eens","Oneens"], talk:"Een eerlijk moment. Meestal valt het mee zodra je één klus pakt. Vraag de 'eens'-stemmers wat hen tegenhoudt."},
+ {q:"Hoe vaak gebruik je AI op je werk?", o:["Nog nooit echt","Af en toe","Elke week","Dagelijks"], talk:"De nulmeting. Waar zit de grootste groep, en wie durft 'nog nooit' toe te geven?"},
+ {q:"Stelling: ik ben stiekem bang dat ik AI niet bijbeen.", o:["Eens","Oneens"], talk:"Eerlijk moment. Meestal valt het mee zodra je een klus pakt. Vraag de felste 'eens' waarom."},
+ {q:"Stelling: ik wil nooit een robot in mijn huis, hoe belachelijk.", o:["Eens","Oneens"], talk:"De zaal is vast verdeeld. Lachen we hier over vijf jaar nog om, of juist niet? Vraag beide kampen."},
+ {q:"Stelling: in een zelfrijdende auto stap ik nooit, ik rij lekker zelf.", o:["Eens","Oneens"], talk:"Grappig genoeg is dit precies AI op je werk: je hoeft het stuur niet los te laten, je laat het alleen het saaie stuk rijden."},
  {q:"Stelling: ik durf AI mijn klantcommunicatie te laten schrijven.", o:["Eens","Oneens"], talk:"De eerste 80% wel, de laatste 20% (jouw toon en oordeel) blijf jij."},
  {q:"Stelling: AI doet de saaie 80 procent, ik de leuke 20.", o:["Eens","Oneens"], talk:"Precies het idee: AI rijdt mee, jij houdt het stuur. Waar zit jouw leuke 20%?"},
- {q:"Stelling: met AI win ik het straks van een grotere concurrent.", o:["Eens","Oneens"], talk:"Snelle eerste versies zijn nu voor iedereen bereikbaar. Wie durft, loopt voorop."},
  {q:"Welke klus geef jij het liefst aan AI?", o:["De mails","De administratie","Content en social","Het uitzoekwerk"], talk:"Hier liggen de eerste quick wins, per bedrijf net even anders."}
 ];
 
@@ -116,9 +122,11 @@ try{ if(firebaseConfig.apiKey && firebaseConfig.apiKey!=="PLAK_HIER"){ firebase.
 var devId=null;
 try{ devId=localStorage.getItem("pslDev"); if(!devId){ devId=Math.random().toString(36).slice(2,10); localStorage.setItem("pslDev",devId);} }catch(e){ devId=Math.random().toString(36).slice(2,10); }
 
-function esc(s){return String(s).replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c]})}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]})}
 function code4(){var a="ABCDEFGHJKLMNPQRSTUVWXYZ23456789",s="";for(var i=0;i<4;i++)s+=a[Math.floor(Math.random()*a.length)];return s}
 function joinUrl(c){return location.origin+location.pathname+"?room="+c}
+function baseUrl(){return (location.origin+location.pathname).replace(/^https?:\/\//,"")}
+function makeQR(id,text,size){ var qd=document.getElementById(id); if(!qd) return; qd.innerHTML=""; if(window.QRCode){ try{ new QRCode(qd,{text:text,width:size,height:size,colorDark:"#1E293B",colorLight:"#F8FAFC"}); }catch(e){} } }
 
 function barsHTML(opts,counts){
  var total=counts.reduce(function(a,b){return a+b},0);
@@ -129,21 +137,22 @@ function barsHTML(opts,counts){
 }
 
 function needConfig(){
- app.innerHTML='<div class="card"><div class="top"><span class="eyebrow">AI: Proosten op de toekomst</span></div><div class="body"><h1>Bijna klaar</h1><p class="lead">Plak eerst je Firebase-config bovenin dit bestand (zie de instructies in de code). Daarna werkt de live poll meteen.</p><div class="foot">PSL CONSULTING &middot; AI LEADERSHIP</div></div></div>';
+ app.innerHTML='<div class="card"><div class="top"><span class="eyebrow">AI: Proosten op de toekomst</span></div><div class="body"><h1>Bijna klaar</h1><p class="lead">Plak eerst je Firebase-config bovenin dit bestand. Daarna werkt de live poll meteen.</p></div></div>';
 }
 
 /* ---------------- HOST (beamer) ---------------- */
 function runHost(){
  document.body.classList.add("host");
  if(!room) room=params.get("room")?params.get("room").toUpperCase():code4();
- var curRef=db.ref("rooms/"+room+"/current");
- curRef.once("value").then(function(s){ if(s.val()===null) curRef.set(0); });
- var votesOff=null, curIdx=0;
  var url=joinUrl(room);
- curRef.on("value",function(s){
-   curIdx=s.val()||0; render();
- });
+ var curRef=db.ref("rooms/"+room+"/current");
+ curRef.once("value").then(function(s){ if(s.val()===null) curRef.set(-1); });
+ var votesOff=null, playersOff=null, curIdx=-1;
+ curRef.on("value",function(s){ curIdx=(s.val()===null?-1:s.val()); render(); });
+
  function render(){
+   if(curIdx<0){ return renderLobby(); }
+   if(playersOff){ playersOff.off(); playersOff=null; }
    var Q=QUESTIONS[curIdx];
    app.innerHTML=''+
     '<div class="hosttop"><div style="display:flex;align-items:center;gap:20px"><img class="hostlogo" src="psl-logo.png" alt="PSL Consulting"><div><div class="eyebrow">AI: Proosten op de toekomst &middot; doe mee</div>'+
@@ -156,11 +165,10 @@ function runHost(){
     '<div class="talk"><b>Bespreek:</b> '+esc(Q.talk)+'</div>'+
     '<div class="ctrl"><button class="btn ghost" onclick="hPrev()">Vorige</button>'+
     '<button class="btn" onclick="hNext()">Volgende vraag <span class="g">&rarr;</span></button>'+
-    '<button class="btn ghost" onclick="hReset()">Reset stemmen</button></div>'+
+    '<button class="btn ghost" onclick="hReset()">Naar lobby</button></div>'+
     '</div></div>';
-   var qd=document.getElementById("qr"); qd.innerHTML="";
-   if(window.QRCode){ try{ new QRCode(qd,{text:url,width:118,height:118,colorDark:"#1E293B",colorLight:"#F8FAFC"}); }catch(e){} }
-   if(votesOff){ votesOff.off(); }
+   makeQR("qr",url,118);
+   if(votesOff) votesOff.off();
    votesOff=db.ref("rooms/"+room+"/votes/"+curIdx);
    votesOff.on("value",function(vs){
      var counts=Q.o.map(function(){return 0}); var total=0;
@@ -169,37 +177,81 @@ function runHost(){
      var t=document.getElementById("total"); if(t) t.textContent=total+(total===1?" stem":" stemmen");
    });
  }
+
+ function renderLobby(){
+   if(votesOff){ votesOff.off(); votesOff=null; }
+   app.innerHTML=''+
+    '<div class="lobbyhead"><img class="hostlogo" src="psl-logo.png" alt="PSL Consulting"><div class="eyebrow">AI: Proosten op de toekomst</div></div>'+
+    '<div class="lobbygrid">'+
+      '<div class="joinbox">'+
+        '<div class="jlabel">Ga op je telefoon naar</div>'+
+        '<div class="jurl">'+esc(baseUrl())+'</div>'+
+        '<div class="jcoderow"><div><div class="jcodelabel">en typ de code</div><div class="jcode">'+room+'</div></div><div id="qr"></div></div>'+
+      '</div>'+
+      '<div class="playerbox"><div class="phead"><span id="pcount">0</span> deelnemers</div><div id="players" class="pgrid"></div></div>'+
+    '</div>'+
+    '<div class="lobbyfoot"><button class="startbtn" onclick="hStart()">Start de poll <span class="g">&rarr;</span></button><span class="waithint">Wacht tot iedereen op het scherm staat</span></div>';
+   makeQR("qr",url,140);
+   if(playersOff) playersOff.off();
+   playersOff=db.ref("rooms/"+room+"/players");
+   playersOff.on("value",function(ps){
+     var names=[]; ps.forEach(function(c){ var n=c.val(); if(n) names.push(String(n)); });
+     var pc=document.getElementById("pcount"); if(pc) pc.textContent=names.length;
+     var g=document.getElementById("players");
+     if(g) g.innerHTML = names.length? names.map(function(n){return '<span class="pchip">'+esc(n)+'</span>'}).join('') : '<span class="pempty">Nog niemand... deel de code!</span>';
+   });
+ }
+
+ window.hStart=function(){ curRef.set(0); };
  window.hNext=function(){ curRef.set(Math.min(curIdx+1,QUESTIONS.length-1)); };
- window.hPrev=function(){ curRef.set(Math.max(curIdx-1,0)); };
- window.hReset=function(){ if(confirm("Alle stemmen wissen en terug naar vraag 1?")){ db.ref("rooms/"+room+"/votes").remove(); curRef.set(0); } };
+ window.hPrev=function(){ curRef.set(curIdx<=0?-1:curIdx-1); };
+ window.hReset=function(){ if(confirm("Terug naar de lobby? De stemmen worden gewist, de deelnemers blijven staan.")){ db.ref("rooms/"+room+"/votes").remove(); curRef.set(-1); } };
 }
 
 /* ---------------- PARTICIPANT (telefoon) ---------------- */
 function runJoin(){
  if(!room){
-   app.innerHTML='<div class="card"><div class="top"><span class="eyebrow">AI: Proosten op de toekomst</span></div><div class="body"><h1>Doe mee</h1><p class="lead">Typ de code van het scherm in en stem mee.</p><div class="row"><input id="cin" class="inp" maxlength="4" placeholder="CODE" autocapitalize="characters"><button class="btn" onclick="goRoom()">Meedoen <span class="g">&rarr;</span></button></div></div></div>';
+   app.innerHTML='<div class="card"><div class="top"><span class="eyebrow">AI: Proosten op de toekomst</span></div><div class="body"><h1>Doe mee</h1><p class="lead">Typ de code van het scherm in.</p><div class="row"><input id="cin" class="inp" maxlength="4" placeholder="CODE" autocapitalize="characters"><button class="btn" onclick="goRoom()">Verder <span class="g">&rarr;</span></button></div></div></div>';
    window.goRoom=function(){ var v=(document.getElementById("cin").value||"").toUpperCase().replace(/[^A-Z0-9]/g,""); if(v.length>=3){ location.search="?room="+v; } };
    return;
  }
- var curRef=db.ref("rooms/"+room+"/current");
- var voted={}, votesOff=null, curIdx=0;
- curRef.on("value",function(s){ curIdx=s.val()||0; render(); });
- function render(){
-   var Q=QUESTIONS[curIdx];
-   var has=(voted[curIdx]!==undefined);
-   var head='<div class="top"><span class="eyebrow">AI: Proosten op de toekomst</span><span class="eyebrow">Code '+room+'</span></div>';
-   if(!has){
-     app.innerHTML='<div class="card">'+head+'<div class="body"><div class="label">Vraag '+(curIdx+1)+' van '+QUESTIONS.length+'</div><div class="q">'+esc(Q.q)+'</div>'+
-       Q.o.map(function(o,i){return '<button class="opt" onclick="vote('+i+')">'+esc(o)+'</button>'}).join("")+
-       '</div></div>';
-   } else {
-     app.innerHTML='<div class="card">'+head+'<div class="body"><div class="label">Je stem is binnen</div><div class="q">'+esc(Q.q)+'</div><div id="pb"></div><div class="note">Je koos: <b style="color:var(--navy)">'+esc(Q.o[voted[curIdx]])+'</b>. Wacht op de volgende vraag van het scherm.</div></div></div>';
-     if(votesOff) votesOff.off();
-     votesOff=db.ref("rooms/"+room+"/votes/"+curIdx);
-     votesOff.on("value",function(vs){ var counts=Q.o.map(function(){return 0}); vs.forEach(function(ch){var v=ch.val(); if(typeof v==="number"&&counts[v]!==undefined)counts[v]++;}); var pb=document.getElementById("pb"); if(pb) pb.innerHTML=barsHTML(Q.o,counts); });
-   }
+ var myName=null;
+ try{ myName=localStorage.getItem("pslName")||null; }catch(e){}
+ if(!myName){ return askName(); }
+ joined();
+
+ function askName(){
+   app.innerHTML='<div class="card"><div class="top"><span class="eyebrow">AI: Proosten op de toekomst</span><span class="eyebrow">Code '+esc(room)+'</span></div><div class="body"><h1>Hoe heet je?</h1><p class="lead">Je naam komt op het grote scherm te staan.</p><div class="row"><input id="nin" class="inp" style="text-transform:none;letter-spacing:0" maxlength="18" placeholder="Naam of nickname"><button class="btn" onclick="saveName()">Meedoen <span class="g">&rarr;</span></button></div></div></div>';
+   var el=document.getElementById("nin"); if(el) el.focus();
+   window.saveName=function(){ var v=(document.getElementById("nin").value||"").trim(); if(v.length<1) return; myName=v.slice(0,18); try{ localStorage.setItem("pslName",myName); }catch(e){} joined(); };
  }
- window.vote=function(i){ voted[curIdx]=i; db.ref("rooms/"+room+"/votes/"+curIdx+"/"+devId).set(i); render(); };
+
+ function joined(){
+   db.ref("rooms/"+room+"/players/"+devId).set(myName);
+   var curRef=db.ref("rooms/"+room+"/current");
+   var voted={}, votesOff=null, curIdx=-1;
+   curRef.on("value",function(s){ curIdx=(s.val()===null?-1:s.val()); render(); });
+   function render(){
+     var head='<div class="top"><span class="eyebrow">AI: Proosten op de toekomst</span><span class="eyebrow">Code '+esc(room)+'</span></div>';
+     if(curIdx<0){
+       app.innerHTML='<div class="card">'+head+'<div class="body"><div class="label">Je doet mee</div><h1>Hoi '+esc(myName)+'!</h1><p class="lead">Je staat op het scherm. Zodra de host start, verschijnt hier de eerste vraag.</p></div></div>';
+       return;
+     }
+     var Q=QUESTIONS[curIdx];
+     var has=(voted[curIdx]!==undefined);
+     if(!has){
+       app.innerHTML='<div class="card">'+head+'<div class="body"><div class="label">Vraag '+(curIdx+1)+' van '+QUESTIONS.length+'</div><div class="q">'+esc(Q.q)+'</div>'+
+         Q.o.map(function(o,i){return '<button class="opt" onclick="vote('+i+')">'+esc(o)+'</button>'}).join("")+
+         '</div></div>';
+     } else {
+       app.innerHTML='<div class="card">'+head+'<div class="body"><div class="label">Je stem is binnen</div><div class="q">'+esc(Q.q)+'</div><div id="pb"></div><div class="note">Je koos: <b style="color:var(--navy)">'+esc(Q.o[voted[curIdx]])+'</b>. Wacht op de volgende vraag van het scherm.</div></div></div>';
+       if(votesOff) votesOff.off();
+       votesOff=db.ref("rooms/"+room+"/votes/"+curIdx);
+       votesOff.on("value",function(vs){ var counts=Q.o.map(function(){return 0}); vs.forEach(function(ch){var v=ch.val(); if(typeof v==="number"&&counts[v]!==undefined)counts[v]++;}); var pb=document.getElementById("pb"); if(pb) pb.innerHTML=barsHTML(Q.o,counts); });
+     }
+   }
+   window.vote=function(i){ voted[curIdx]=i; db.ref("rooms/"+room+"/votes/"+curIdx+"/"+devId).set(i); render(); };
+ }
 }
 
 if(!db){ needConfig(); }
